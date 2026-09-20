@@ -1,10 +1,10 @@
 {
   "name": "Clicker Master",
   "short_name": "Clicker Master",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "description": "Clicker Master offline judging app"
+  "description": "Clicker Master judging app"
 }
