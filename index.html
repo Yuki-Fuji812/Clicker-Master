@@ -1263,6 +1263,12 @@ input.fe-range[type="range"]::-moz-range-thumb{
   box-shadow:0 0 0 1px rgba(0,0,0,.35)!important;
 }
 </style>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Clicker Master">
 </head>
 <body>
 <button type="button" id="contestModeV17">予選・準決勝</button>
@@ -3964,6 +3970,14 @@ input[type="range"]{
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',liteCleanup); else liteCleanup();
  window.addEventListener('load',liteCleanup);
 })();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+  });
+}
 </script>
 </body>
 
