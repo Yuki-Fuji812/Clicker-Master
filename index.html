@@ -1263,6 +1263,13 @@ input.fe-range[type="range"]::-moz-range-thumb{
   box-shadow:0 0 0 1px rgba(0,0,0,.35)!important;
 }
 </style>
+
+<!-- Clicker Master Standard Distribution: YouTube/Google external endpoints disabled; layout preserved -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#05070b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script>window.addEventListener("load",()=>{"serviceWorker"in navigator&&navigator.serviceWorker.register("./service-worker.js").catch(()=>{})});</script>
 </head>
 <body>
 <button type="button" id="contestModeV17">予選・準決勝</button>
@@ -1502,7 +1509,7 @@ async function searchVideo(){
   box.className="search-results show";
   box.innerHTML="検索中…";
   try{
-    const u="https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=10&q="+encodeURIComponent(q)+"&key="+encodeURIComponent(key);
+    const u="about:blank#youtube-api-removed/search?part=snippet&type=video&maxResults=10&q="+encodeURIComponent(q)+"&key="+encodeURIComponent(key);
     const r=await fetch(u);
     const data=await r.json();
     if(!r.ok) throw new Error(data?.error?.message||"検索できませんでした");
@@ -1526,7 +1533,7 @@ function changeApiKey(){
 }
 function playVideo(id,title){
    currentVideoTitle = title || currentVideoTitle || id;
-  document.getElementById("video").innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  document.getElementById("video").innerHTML=`<iframe src="about:blank#youtube-embed-removed/${id}?playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   document.getElementById("searchResults").className="search-results";
   document.getElementById("video").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
@@ -1542,7 +1549,7 @@ function youtubeId(u){
 function loadVideo(){
  let id=youtubeId(document.getElementById("url").value.trim());
  if(!id){alert("YouTubeのURLを確認してください");return}
- document.getElementById("video").innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+ document.getElementById("video").innerHTML=`<iframe src="about:blank#youtube-embed-removed/${id}?playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
  localStorage.setItem("yoyo-url",document.getElementById("url").value.trim());
 }
 
@@ -1699,7 +1706,7 @@ addEventListener('gamepadconnected',()=>hi(ranges()));requestAnimationFrame(loop
 })();
 </script>
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <script>
 (function(){
  const SCOPE='https://www.googleapis.com/auth/youtube.readonly';
@@ -1776,10 +1783,10 @@ addEventListener('gamepadconnected',()=>hi(ranges()));requestAnimationFrame(loop
    document.getElementById('subsTitle').textContent=name;
    list.textContent='動画を読み込み中…';
    try{
-     const c=await keyApi('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id='+encodeURIComponent(id));
+     const c=await keyApi('about:blank#youtube-api-removed/channels?part=contentDetails&id='+encodeURIComponent(id));
      const pl=c.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
      if(!pl) throw new Error('uploads');
-     const d=await keyApi('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId='+encodeURIComponent(pl));
+     const d=await keyApi('about:blank#youtube-api-removed/playlistItems?part=snippet&maxResults=50&playlistId='+encodeURIComponent(pl));
      list.innerHTML='';
      (d.items||[]).forEach(it=>{
        const sn=it.snippet, vid=sn.resourceId?.videoId;
@@ -1834,7 +1841,7 @@ addEventListener('gamepadconnected',()=>hi(ranges()));requestAnimationFrame(loop
      let items=[],page='';
      do{
        const d=await oauthApi(
-         'https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=50&order=alphabetical'+
+         'about:blank#youtube-api-removed/subscriptions?part=snippet&mine=true&maxResults=50&order=alphabetical'+
          (page?'&pageToken='+encodeURIComponent(page):'')
        );
        items.push(...(d.items||[]));
@@ -3965,27 +3972,6 @@ input[type="range"]{
  window.addEventListener('load',liteCleanup);
 })();
 </script>
-
-<!-- Standard edition override: original layout preserved -->
-<style id="cm-standard-youtube-off">
-.urlrow > input:not([type="file"]), .urlrow > button.load,
-#subsBtn,#subscriptionBtn,#registeredChannelsBtn,#subsBtnLegacyDisabled,
-#subsLauncherV61,#subsPanel,.search-results{
- display:none!important;visibility:hidden!important;
-}
-.urlrow{justify-content:center!important}
-</style>
-<script id="cm-standard-network-guard">
-(function(){
- const blocked=/(^|\.)youtube\.com$|(^|\.)youtu\.be$|(^|\.)googleapis\.com$|(^|\.)google\.com$/i;
- const deny=v=>{try{return blocked.test(new URL(String(v),location.href).hostname)}catch(e){return false}};
- const f=window.fetch;
- if(f)window.fetch=function(i,o){const u=i&&i.url?i.url:i;if(deny(u))return Promise.reject(new Error("YouTube/Google disabled"));return f.apply(this,arguments)};
- const xo=XMLHttpRequest.prototype.open;
- XMLHttpRequest.prototype.open=function(m,u){if(deny(u))throw new Error("YouTube/Google disabled");return xo.apply(this,arguments)};
-})();
-</script>
-
 </body>
 
 <style id="v77-fe-triangle-marker-unified">
